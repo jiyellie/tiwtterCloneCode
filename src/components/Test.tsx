@@ -65,34 +65,35 @@ const Test = () => {
     //     twitService.deleteTwit(params);
     // }
 
-    // const testGetList = () => {
-    //     let loginStr = localStorage.getItem("loginInfo");
-    //     if(loginStr === null){
-    //         loginStr = '0';
-    //     }
-    //     const loginMemberNo = JSON.parse(loginStr);
+    const testGetList = () => {
+        let loginStr = localStorage.getItem("loginInfo");
+        if(loginStr === null){
+            loginStr = '0';
+        }
+        const loginMemberNo = JSON.parse(loginStr);
 
-    //     const param:ITwitLoginInfo = {
-    //         no :loginMemberNo,
-    //     }
+        const param:ITwitLoginInfo = {
+            no :loginMemberNo,
+            keyword : "새해"
+        }
         
-    //     const getTwits = twitService.getTwitList(param);
+        const getTwits = twitService.getTwitList(param);
 
-    //     getTwits.sort(function(a,b){
-    //         const dateA = a.registerDate;
-    //         const dateB = b.registerDate;
-    //         if(dateA && dateB) {
-    //             if(dateA > dateB){
-    //                 return -1;
-    //             }
-    //             if(dateA < dateB){
-    //                 return 1;
-    //             }
-    //         }    
-    //         return 0;
-    //     })
-    //     console.log(getTwits);
-    // }
+        getTwits.sort(function(a,b){
+            const dateA = a.registerDate;
+            const dateB = b.registerDate;
+            if(dateA && dateB) {
+                if(dateA > dateB){
+                    return -1;
+                }
+                if(dateA < dateB){
+                    return 1;
+                }
+            }    
+            return 0;
+        })
+        console.log(getTwits);
+    }
     
     // const testReplyTwit = () => {
     //     const params :IReply = {
@@ -137,13 +138,13 @@ const Test = () => {
     //     twitService.deleteNestedReply(params);
     // }
 
-    // const testLike = () => {
-    //     const params : ILike = {
-    //         twitNo : 758,
-    //         memberNo : 2000
-    //     }
-    //     twitService.likeTwit(params);
-    // }
+    const testLike = () => {
+        const params : ILike = {
+            twitNo : 370,
+            memberNo : 2000
+        }
+        twitService.likeTwit(params);
+    }
 
     // const testFollow = () => {
     //     const params : IFollower = {
@@ -213,7 +214,7 @@ const Test = () => {
         // testLike();
         // testFollow();
         // twitService.saveRetwit(758);
-        testKeyword();
+        // testKeyword();
     },[])
 
     return <div>test</div>

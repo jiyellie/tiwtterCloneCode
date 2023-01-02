@@ -15,7 +15,7 @@ const getTwitList = (param : ITwitLoginInfo) => {
     if(twitStr === null){
         twitStr = '[]';
     }
-    const twitList = JSON.parse(twitStr);
+    let twitList = JSON.parse(twitStr);
 
     let resTwitList = [] as ITwitList[];
     
@@ -30,11 +30,37 @@ const getTwitList = (param : ITwitLoginInfo) => {
         likeStr = "[]"
     }
     const likeList = JSON.parse(likeStr);
+
+    let keywordStr = localStorage.getItem("trend");
+    if(keywordStr === null ) {
+        keywordStr = "[]"
+    } 
+    const keywords = JSON.parse(keywordStr);
+
     // 서클에 저장되어 있는 번호만 받아오기
     let circleNumbers = [];
     for(var p = 0 ;p < circleGroup.length ; p ++){
         circleNumbers.push(circleGroup[p].twitNo);
     }
+    let twits=[];
+    let isKeyword = false;
+    let keywordReq = param.keyword?.replace(/ /g,"");
+    // 요청에 키워드가 존재해야한다.
+    if(param.keyword){
+        for(var g = 0 ; g < twitList.length ; g++ ){
+            const twitContent = twitList[g].content.replace(/ /g,"");
+            // 트윗글에 요청한 키워드와 같은 키워드가 존재한다면
+            if(twitContent.includes(keywordReq)){
+                twits.push(twitList[g]);
+                isKeyword =true;
+            }
+        }
+    }
+    if(isKeyword){
+        twitList.length = 0;
+        twitList = [...twits];
+    }
+
     // 트윗 조회를 여러명이서 하는 경우와 서클회원만 가능하게 한 경우를 확인하여 목록에 담는다.
     if(twitList.length > 0){ //트윗이 여러개인 경우
         for(var i =0;i < twitList.length ; i ++){
@@ -79,9 +105,6 @@ const getTwitList = (param : ITwitLoginInfo) => {
             }
         }       
     }
-    
-    
-   
     return resTwitList;
 }
 

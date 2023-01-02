@@ -1,5 +1,6 @@
 export interface ITwitLoginInfo {
-    no : number  // 로그인한 회원 번호
+    no : number, // 로그인한 회원 번호
+    keyword? : string
 }
 
 export interface ITwit {
