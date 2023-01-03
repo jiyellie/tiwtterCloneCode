@@ -1,10 +1,14 @@
-import {  useEffect } from "react";
+import {  useEffect, useState } from "react";
 import {  ILogin, IMember } from "../intefaces/service/member";
-import {  IDeleteNestedReply, IDeleteReply, IDeleteTwit, IFollower, ILike, INestedReply,  IReply,  ITwitLoginInfo } from "../intefaces/service/twit";
+import { IDeleteNestedReply, IDeleteReply, IDeleteTwit, IFollower, ILike,  IReply,  ITwitLoginInfo } from "../intefaces/service/twit";
 import { memberService } from "../service/member-service";
 import { twitService } from "../service/twit-service";
+import { Link } from 'react-router-dom';
+import { TestJoin } from "./member/TestJoin";
+import TestTwitList from "./twit/TestTwitList";
 
 const Test = () => {
+    const [loginNo, setLoginNo] = useState();
 
     const testJoinTwit = () => {
         const param:IMember = {
@@ -46,35 +50,37 @@ const Test = () => {
 
     const testSaveTwit = () => {
         const param = {
-            no : 4000,
-            name :  "4000", // 회원명
-            image : "string", // 이미지 또는 동영상
-            content : "오리 눈 만들고 싶다.", // 내용
-            // circleMemberNo: [4000,2000],
+            memberNo : 5000,
+            name :  "5000", // 회원명
+            image : "https://pbs.twimg.com/profile_images/1509863180386041859/iEBdA9jn_400x400.jpg", // 이미지 또는 동영상
+            content : "더 글로리 존잼.", // 내용
+            // circleMemberNo: [4000,5000],
             // follow : false
         }
         
         twitService.saveTwit(param);
     }
 
-    // const testDeleteTwit = () => {
-    //     const params : IDeleteTwit= {
-    //         no : 2000,
-    //         twitNo : 71
-    //     }
-    //     twitService.deleteTwit(params);
-    // }
+    const testDeleteTwit = () => {
+        const params : IDeleteTwit= {
+            memberNo : loginNo,
+            twitNo : 370
+        }
+        twitService.deleteTwit(params);
+    }
 
-    const testGetList = () => {
+    const login = () => {
         let loginStr = localStorage.getItem("loginInfo");
         if(loginStr === null){
             loginStr = '0';
         }
-        const loginMemberNo = JSON.parse(loginStr);
+        setLoginNo(JSON.parse(loginStr));
+    }
 
+    const testGetList = () => {
         const param:ITwitLoginInfo = {
-            no :loginMemberNo,
-            keyword : "새해"
+            memberNo :loginNo,
+            // keyword : "새해"
         }
         
         const getTwits = twitService.getTwitList(param);
@@ -95,78 +101,81 @@ const Test = () => {
         console.log(getTwits);
     }
     
-    // const testReplyTwit = () => {
-    //     const params :IReply = {
-    //         twitNo:758,
-    //         no : 2000,
-    //         name: "2000",
-    //         content: "string",
-    //         image:"string"
-    //     }
+    const testReplyTwit = () => {
+        const params :IReply = {
+            twitNo:370,
+            memberNo : 3000,
+            name: "3000",
+            content: "string",
+            image:"string"
+        }
         
-    //     const reply = twitService.replyTwit(params);
-    //     console.log(reply);
-    // }
+        const reply = twitService.replyTwit(params);
+        console.log(reply);
+    }
 
-    // const testDeleteReply = () => {
-    //     const params : IDeleteReply = {
-    //         no: 2000,
-    //         replyNo : 22
-    //     }
+    const testDeleteReply = () => {
+        const params : IDeleteReply = {
+            memberNo: loginNo,
+            replyNo : 42
+        }
 
-    //     twitService.deleteReply(params);
-    // }
+        twitService.deleteReply(params);
+    }
 
-    // const testNestedReply = () => {
-    //     const params : IReply = {
-    //         twitNo: 758,
-    //         replyNo: 26,
-    //         no : 2000,
-    //         name: "2000",
-    //         content: "string",
-    //         image: "string"
-    //     }
-    //     twitService.nestedReplyTwit(params);
-    // }
+    const testNestedReply = () => {
+        const params : IReply = {
+            twitNo: 370,
+            replyNo: 1,
+            memberNo : 2000,
+            name: "2000",
+            content: "string",
+            image: "string"
+        }
+        twitService.nestedReplyTwit(params);
+    }
 
-    // const testDeleteNestedReply = () => {
-    //     const params = {
-    //         no : 2000,
-    //         nestedReplyNo : 446
-    //     }
+    const testDeleteNestedReply = () => {
+        const params : IDeleteNestedReply = {
+            memberNo : loginNo,
+            nestedReplyNo : 446
+        }
 
-    //     twitService.deleteNestedReply(params);
-    // }
+        twitService.deleteNestedReply(params);
+    }
 
     const testLike = () => {
         const params : ILike = {
             twitNo : 370,
-            memberNo : 2000
+            memberNo : loginNo
         }
         twitService.likeTwit(params);
     }
 
-    // const testFollow = () => {
-    //     const params : IFollower = {
-    //         followerNo : 2000,//나 
-    //         followNo : 6000               
-    //     }
+    const testFollow = () => {
+        if(loginNo === undefined){
+            return;
+        }
+        const params : IFollower = {
+            followerNo : loginNo,//나 
+            followNo : 6000               
+        }
         
-    //     const follow = twitService.followTwit(params);
-    //     console.log(follow);
-    // }
+        const follow = twitService.followTwit(params);
+        console.log(follow);
+    }
 
-    // const testSaveRetwit = () => {
-    //     const param = {
-    //         no : 3000,
-    //         name :  "3000", // 회원명
-    //         image : "string", // 이미지 또는 동영상
-    //         content : "내용", // 내용
-    //         retwitNo : 781,
-    //     }
+    const testSaveRetwit = () => {
+        const param = {
+            memberNo : 3000,
+            name :  "3000", // 회원명
+            image : "string", // 이미지 또는 동영상
+            content : "내용", // 내용
+            retwitNo : 781,
+        }
         
-    //     twitService.saveRetwit(param);
-    // }
+        twitService.saveRetwit(param);
+    }
 
     const testKeyword = () => {
         const param = {
@@ -217,7 +226,16 @@ const Test = () => {
         // testKeyword();
     },[])
 
-    return <div>test</div>
+    return ( 
+    <>
+        <div>트위터 초기 화면</div>
+        <div><Link to={"/TestJoin"}>회원가입</Link></div>
+        <div><Link to={"/TestLogin"}>로그인</Link></div>
+        <div><Link to={"/TestMyInfo"}>내 정보</Link></div>
+        <div>트윗 전체 목록</div>
+        <TestTwitList/>
+    </>
+    )
 }
 
 export default Test;

@@ -15,9 +15,8 @@ const joinTwit = (param: IMember) => {
     const memberList = JSON.parse(memberStr);
     let isJoin = true;
     if(memberList.length > 0){
-        for(var i = 0; i < memberList.length; i++ ){
+        for(let i = 0; i < memberList.length; i++ ){
             const existingMember = memberList[i].no === param.no;
-            console.log("dddd")
             if(existingMember){
                 alert("이미 아이디를 사용중인 사용자가 있습니다.\n다시 입력 바랍니다.");
                 isJoin = false;
@@ -48,7 +47,7 @@ const getMember = (no : number): Member | undefined =>{
     const memberList = JSON.parse(memberStr) as Member[];
     let member = undefined;
     if(memberList.length > 0){
-        for(var i = 0; i < memberList.length; i++){
+        for(let i = 0; i < memberList.length; i++){
             if(memberList[i].no === no){
                 member = memberList[0];
             }
@@ -77,10 +76,11 @@ const loginTwit = (loginData : ILogin) => { //로그아웃은 버튼 누르면 �
     // 로그인의 성공여부를 체크해줌
     let isLogin = false;
     if(memberList.length > 0){ //회원 정보가 있을 경우 순회한다
-        for(var i = 0; i < memberList.length; i++ ){
-            if( memberList[i].no === loginData.no){ // 회원번호가 일치하는 경우
-                if(memberList[i].password === loginData.password){ // 비밀번호가 일치하는 경우 
-                    loginInfo = memberList[i].no;
+        for(let i = 0; i < memberList.length; i++ ){
+            const member = memberList[i]
+            if( member.no === loginData.no){ // 회원번호가 일치하는 경우
+                if(member.password === loginData.password){ // 비밀번호가 일치하는 경우 
+                    loginInfo = member.no;
                     isLogin = true;
                 }
             }
@@ -110,8 +110,9 @@ const updateMember = (modifyData : IMember) => {
     
     let isUpdate = false
     if(memberList.length > 0){
-        for(var i = 0; i < memberList.length; i++ ){
-            if( memberList[i].no === modifyData.no){ // 회원번호가 일치하는 경우
+        for(let i = 0; i < memberList.length; i++ ){
+            const member = memberList[i];
+            if( member.no === modifyData.no){ // 회원번호가 일치하는 경우
                 memberList[i] = modifyData;
                 isUpdate = true;
             }
@@ -142,8 +143,9 @@ const deleteMember = (no : number) => {
 
     let isDelete = false; 
     if(memberList.length > 0){
-        for(var i = 0; i < memberList.length; i++ ){
-            if( memberList[i].no === no){ // 회원번호가 일치하는 경우
+        for(let i = 0; i < memberList.length; i++ ){
+            const member = memberList[i];
+            if( member.no === no){ // 회원번호가 일치하는 경우
                 memberList.splice(i, 1);
                 isDelete = logoutTwit(no);
             }
