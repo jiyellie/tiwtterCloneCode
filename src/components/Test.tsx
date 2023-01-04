@@ -50,32 +50,35 @@ const Test = () => {
 
     const testSaveTwit = () => {
         const param = {
-            memberNo : 5000,
-            name :  "5000", // 회원명
-            image : "https://pbs.twimg.com/profile_images/1509863180386041859/iEBdA9jn_400x400.jpg", // 이미지 또는 동영상
-            content : "더 글로리 존잼.", // 내용
-            // circleMemberNo: [4000,5000],
-            // follow : false
+            memberNo : 3000,
+            name :  "삼천", // 회원명
+            image : "https://pbs.twimg.com/media/Flls4hRaEAIPy0X?format=jpg&name=large" ,
+            //"https://t3.ftcdn.net/jpg/05/44/14/94/240_F_544149467_vFReZ7Jfw091NRtZ5jiAeEdbS2VmCiZ4.jpg",
+            // "https://as2.ftcdn.net/v2/jpg/04/39/45/47/1000_F_439454712_84RhEpQVA1FArMRyVh2igGFmTegNQSFP.jpg",
+            // "https://as1.ftcdn.net/v2/jpg/05/52/08/44/1000_F_552084413_3GHrsNRwe3OwCXFWwQ5hKSWBbvsbqEPY.jpg", // 이미지 또는 동영상
+            content : "더 글로리 존잼", // 내용
+            // circleMemberNo: [2000,3000],
+            // follow : true
         }
         
         twitService.saveTwit(param);
     }
 
-    const testDeleteTwit = () => {
-        const params : IDeleteTwit= {
-            memberNo : loginNo,
-            twitNo : 370
-        }
-        twitService.deleteTwit(params);
-    }
+    // const testDeleteTwit = () => {
+    //     const params : IDeleteTwit= {
+    //         memberNo : loginNo,
+    //         twitNo : 370
+    //     }
+    //     twitService.deleteTwit(params);
+    // }
 
-    const login = () => {
-        let loginStr = localStorage.getItem("loginInfo");
-        if(loginStr === null){
-            loginStr = '0';
-        }
-        setLoginNo(JSON.parse(loginStr));
-    }
+    // const login = () => {
+    //     let loginStr = localStorage.getItem("loginInfo");
+    //     if(loginStr === null){
+    //         loginStr = '0';
+    //     }
+    //     setLoginNo(JSON.parse(loginStr));
+    // }
 
     const testGetList = () => {
         const param:ITwitLoginInfo = {
@@ -101,90 +104,90 @@ const Test = () => {
         console.log(getTwits);
     }
     
-    const testReplyTwit = () => {
-        const params :IReply = {
-            twitNo:370,
-            memberNo : 3000,
-            name: "3000",
-            content: "string",
-            image:"string"
-        }
+    // const testReplyTwit = () => {
+    //     const params :IReply = {
+    //         twitNo:370,
+    //         memberNo : 3000,
+    //         name: "3000",
+    //         content: "string",
+    //         image:"string"
+    //     }
         
-        const reply = twitService.replyTwit(params);
-        console.log(reply);
-    }
+    //     const reply = twitService.replyTwit(params);
+    //     console.log(reply);
+    // }
 
-    const testDeleteReply = () => {
-        const params : IDeleteReply = {
-            memberNo: loginNo,
-            replyNo : 42
-        }
+    // const testDeleteReply = () => {
+    //     const params : IDeleteReply = {
+    //         memberNo: loginNo,
+    //         replyNo : 42
+    //     }
 
-        twitService.deleteReply(params);
-    }
+    //     twitService.deleteReply(params);
+    // }
 
-    const testNestedReply = () => {
-        const params : IReply = {
-            twitNo: 370,
-            replyNo: 1,
-            memberNo : 2000,
-            name: "2000",
-            content: "string",
-            image: "string"
-        }
-        twitService.nestedReplyTwit(params);
-    }
+    // const testNestedReply = () => {
+    //     const params : IReply = {
+    //         twitNo: 370,
+    //         replyNo: 1,
+    //         memberNo : 2000,
+    //         name: "2000",
+    //         content: "string",
+    //         image: "string"
+    //     }
+    //     twitService.nestedReplyTwit(params);
+    // }
 
-    const testDeleteNestedReply = () => {
-        const params : IDeleteNestedReply = {
-            memberNo : loginNo,
-            nestedReplyNo : 446
-        }
+    // const testDeleteNestedReply = () => {
+    //     const params : IDeleteNestedReply = {
+    //         memberNo : loginNo,
+    //         nestedReplyNo : 446
+    //     }
 
-        twitService.deleteNestedReply(params);
-    }
+    //     twitService.deleteNestedReply(params);
+    // }
 
-    const testLike = () => {
-        const params : ILike = {
-            twitNo : 370,
-            memberNo : loginNo
-        }
-        twitService.likeTwit(params);
-    }
+    // const testLike = () => {
+    //     const params : ILike = {
+    //         twitNo : 370,
+    //         memberNo : loginNo
+    //     }
+    //     twitService.likeTwit(params);
+    // }
 
-    const testFollow = () => {
-        if(loginNo === undefined){
-            return;
-        }
-        const params : IFollower = {
-            followerNo : loginNo,//나 
-            followNo : 6000               
-        }
+    // const testFollow = () => {
+    //     if(loginNo === undefined){
+    //         return;
+    //     }
+    //     const params : IFollower = {
+    //         followerNo : loginNo,//나 
+    //         followNo : 6000               
+    //     }
         
-        const follow = twitService.followTwit(params);
-        console.log(follow);
-    }
+    //     const follow = twitService.followTwit(params);
+    //     console.log(follow);
+    // }
 
-    const testSaveRetwit = () => {
-        const param = {
-            memberNo : 3000,
-            name :  "3000", // 회원명
-            image : "string", // 이미지 또는 동영상
-            content : "내용", // 내용
-            retwitNo : 781,
-        }
+    // const testSaveRetwit = () => {
+    //     const param = {
+    //         memberNo : 3000,
+    //         name :  "3000", // 회원명
+    //         image : "string", // 이미지 또는 동영상
+    //         content : "내용", // 내용
+    //         retwitNo : 781,
+    //     }
         
-        twitService.saveRetwit(param);
-    }
+    //     twitService.saveRetwit(param);
+    // }
 
-    const testKeyword = () => {
-        const param = {
-            keyword : "모나리자"
-        }
+    // const testKeyword = () => {
+    //     const param = {
+    //         keyword : "모나리자"
+    //     }
 
-        const trend = twitService.trendKeyword(param);
-        console.log(trend)
-    }
+    //     const trend = twitService.trendKeyword(param);
+    //     console.log(trend)
+    // }
 
     useEffect(() => {
         // 회원 가입 테스트

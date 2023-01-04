@@ -1,4 +1,4 @@
-import { IDeleteNestedReply, IDeleteReply, IDeleteTwit, ITwitList, IFollower, ILike, IReply, IRetwit, ISaveTwit, ITwitLoginInfo, ITwitDetail, ITrendKeyword } from "../intefaces/service/twit";
+import { IDeleteNestedReply, IDeleteReply, IDeleteTwit, ITwitList, IFollower, ILike, IReply, IRetwit, ISaveTwit, ITwitLoginInfo, ITwitDetail, ITrendKeyword, ITwitDetailReq } from "../intefaces/service/twit";
 
 /**
  * 트윗 목록 조회 
@@ -273,7 +273,7 @@ const deleteTwit = (params : IDeleteTwit) => {
 // 1. 트윗을 상세보기 하기 위해 필요한 정보를 로컬스토리지에서 가져와서 객체로 변환해준다. (twit, reply)
 // 2. twitList안에 있는 twitNo와 상세보기 하려는 twitNo가 같으면 twitDetail에 데이터를 담아준다.
 // 3. 또한 작성된 댓글이 있다면 댓글목록 안에 있는 twitNo와 상세보기 하려는 twitNo가 같으면 twitDetail.reply안에 값을 넣어준다.
-const getTiwtDetail = (twitNo : number) => { // follow가 true가 되어있으면 댓글창을 follow한 사람들만 볼 수있게 해준다.
+const getTiwtDetail = (params : ITwitDetailReq) => { // follow가 true가 되어있으면 댓글창을 follow한 사람들만 볼 수있게 해준다.
     let twitStr = localStorage.getItem("twit");
     if(twitStr === null){
         twitStr = "[]"
@@ -289,22 +289,39 @@ const getTiwtDetail = (twitNo : number) => { // follow가 true가 되어있으�
 
     const replyGroup = JSON.parse(replyStr);
 
+    let likeStr = localStorage.getItem("like");
+    if(likeStr === null){
+        likeStr = "[]"
+    }
+    const likeList = JSON.parse(likeStr);
+
     for(let i = 0 ; i < twitList.length ; i ++){
         const twit = twitList[i]
-        if(twit.twitNo === twitNo){
+        if(twit.twitNo === params.twitNo){
             twitDetail = {
                 ...twit,
-                reply : []    
+                reply : [],
+                isLike : false    
             };
         }
     }
 
     for(let k = 0 ; k < replyGroup.length ; k ++){
         const reply = replyGroup[k]
-        if(reply.twitNo === twitNo){
+        if(reply.twitNo === params.twitNo){
             twitDetail.reply.push(reply);
         }
     }
+
+    // 좋아요가 존재하는 경우 isLike가 있는 데이터로 가공한다.
+    // for(let g = 0 ; g < likeList.length ; g ++){
+    //     const like = likeList[g];
+    //     if(params.twitNo === like.twitNo && params.memberNo === like.memberNo ){ // 로그인한 회원과 좋아요 리스트에있는 회원이 같을 떄
+    //         twitDetail.isLike = true;
+    //         break;
+    //     }
+    // }
+    // console.log(twitDetail);
     
     return twitDetail;
 }

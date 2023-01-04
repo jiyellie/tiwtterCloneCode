@@ -33,7 +33,7 @@ export interface IReply {
     nestedReplyNo? : number, // 대댓글 번호
     replyNo? : number, // 댓글 번호
     memberNo : number  // 댓글 작성한 회원 번호
-    name : string, // 댓글 작성자
+    name? : string, // 댓글 작성자
     content : string, // 댓글 내용
     registerDate? : string, // 댓글 작성일
     image? : string, // 댓글에서 올린 사진
@@ -41,7 +41,7 @@ export interface IReply {
 
 export interface IDeleteReply {
     memberNo? : number, // 로그인한 회원 번호
-    replyNo : number // 삭제하려는 트윗 번호
+    replyNo? : number // 삭제하려는 트윗 번호
 }
 
 export interface ICircle {
@@ -60,10 +60,15 @@ export interface INestedReply {
 
 export interface IDeleteNestedReply {
     memberNo? : number, // 댓글 번호
-    nestedReplyNo : number // 대댓글 번호
+    nestedReplyNo? : number // 대댓글 번호
 }
 
 export interface ILike {
+    twitNo : number, // 트윗번호
+    memberNo? : number, // 좋아요 버튼을 누른 로그인 회원
+}
+
+export interface ITwitDetailReq {
     twitNo : number, // 트윗번호
     memberNo? : number, // 좋아요 버튼을 누른 로그인 회원
 }
@@ -92,6 +97,7 @@ export interface ITwitDetail {
     image? : string, // 이미지 또는 동영상
     content : string, // 내용
     registerDate : string, // 게시일
+    isLike : boolean, // 좋아요
     reply : IReply[]
 }
 

@@ -141,20 +141,66 @@ const deleteMember = (no : number) => {
     }
     const memberList = JSON.parse(memberStr);
 
-    let isDelete = false; 
+    let circleStr = localStorage.getItem("circleGroup");
+    if(circleStr === null){
+        circleStr = '[]';
+    }
+    const circleList = JSON.parse(circleStr);
+
+    let twitStr = localStorage.getItem("twit");
+    if(twitStr === null){
+        twitStr = '[]';
+    }
+    const twitList = JSON.parse(twitStr);
+
+    let replyStr = localStorage.getItem("reply");
+    if(replyStr === null){
+        replyStr = '[]';
+    }
+    const replyList = JSON.parse(replyStr);
+
+    let isDeleteMember = false; 
     if(memberList.length > 0){
         for(let i = 0; i < memberList.length; i++ ){
             const member = memberList[i];
             if( member.no === no){ // 회원번호가 일치하는 경우
                 memberList.splice(i, 1);
-                isDelete = logoutTwit(no);
+                isDeleteMember = logoutTwit(no);
+                break;
             }
         }
     }
-    if(isDelete){
+    let isDeleteTwit = false
+    for(let k = circleList.length-1 ; k >= 0  ; k --) {
+        const circle = circleList[k];
+        if(circle.no === no){
+            circleList.splice(k, 1);
+            isDeleteTwit = true
+        }
+    }
+    for(let g = replyList.length-1 ; g >= 0  ; g --){
+        const reply = replyList[g]
+        if(reply.no === no){
+            replyList.splice(g, 1);
+            isDeleteTwit = true
+        }
+    }
+    for(let l = twitList.length-1 ; l >= 0  ; l --){
+        const twit = twitList[l]
+        if(twit.no === no){
+            twitList.splice(l, 1);
+            isDeleteTwit = true
+        }
+    }
+    if(isDeleteMember){
         localStorage.setItem("member",JSON.stringify(memberList));
     }
-    return isDelete;
+    if(isDeleteTwit) {
+        localStorage.setItem("circleGroup",JSON.stringify(circleList));
+        localStorage.setItem("reply",JSON.stringify(replyList));
+        localStorage.setItem("twit",JSON.stringify(twitList));
+    }
+    return isDeleteMember;
 }
 
 /**
