@@ -301,7 +301,7 @@ const getTiwtDetail = (params : ITwitDetailReq) => { // follow가 true가 되어
             twitDetail = {
                 ...twit,
                 reply : [],
-                isLike : false    
+                isLike : false
             };
         }
     }
@@ -313,15 +313,13 @@ const getTiwtDetail = (params : ITwitDetailReq) => { // follow가 true가 되어
         }
     }
 
-    // 좋아요가 존재하는 경우 isLike가 있는 데이터로 가공한다.
-    // for(let g = 0 ; g < likeList.length ; g ++){
-    //     const like = likeList[g];
-    //     if(params.twitNo === like.twitNo && params.memberNo === like.memberNo ){ // 로그인한 회원과 좋아요 리스트에있는 회원이 같을 떄
-    //         twitDetail.isLike = true;
-    //         break;
-    //     }
-    // }
-    // console.log(twitDetail);
+    //좋아요가 존재하는 경우 isLike가 있는 데이터로 가공한다.
+    for(let g = 0 ; g < likeList.length ; g ++){
+        const like = likeList[g];
+        if(params.twitNo === like.twitNo && params.memberNo === like.memberNo ){ // 로그인한 회원과 좋아요 리스트에있는 회원이 같을 떄
+            twitDetail.isLike = true;
+        }
+    }
     
     return twitDetail;
 }
