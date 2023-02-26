@@ -15,22 +15,28 @@ const joinTwit = (param: IMember) => {
     const memberList = JSON.parse(memberStr);
     let isJoin = true;
     if(memberList.length > 0){
-        for(let i = 0; i < memberList.length; i++ ){
-            const existingMember = memberList[i].no === param.no;
-            if(existingMember){
-                alert("이미 아이디를 사용중인 사용자가 있습니다.\n다시 입력 바랍니다.");
-                isJoin = false;
-                return;
-            }
-        }
+        memberList.map((item : any) => (
+            item.no === param.no ? isJoin = false : item.no
+        ) );
+        // for(let i = 0; i < memberList.length; i++ ){
+        //     const existingMember = memberList[i].no === param.no;
+        //     if(existingMember){
+        //         alert("이미 아이디를 사용중인 사용자가 있습니다.\n다시 입력 바랍니다.");
+        //         isJoin = false;
+        //         return;
+        //     }
+        // }
     }
-    else if(memberList.length === 0){
-        isJoin = true;
+    // else if(memberList.length === 0){
+    //     isJoin = true;
+    // }
+    if(!isJoin){
+        alert("이미 아이디를 사용중인 사용자가 있습니다.\n다시 입력 바랍니다.");
+        return isJoin;
     }
-    if(isJoin){
-        memberList.push(param);
-        localStorage.setItem("member",JSON.stringify(memberList));
-    }
+
+    memberList.push(param);
+    localStorage.setItem("member",JSON.stringify(memberList));
     return isJoin;
 } 
 
@@ -45,14 +51,19 @@ const getMember = (no : number): Member | undefined =>{
         memberStr = '[]';
     }
     const memberList = JSON.parse(memberStr) as Member[];
-    let member = undefined;
-    if(memberList.length > 0){
-        for(let i = 0; i < memberList.length; i++){
-            if(memberList[i].no === no){
-                member = memberList[0];
-            }
-        }
+    // let member = undefined;
+    if(memberList.length < 0) {
+        alert('요청하신 정보가 없습니다.')
+        return;
     }
+    // if(memberList.length > 0){
+        const member = memberList.find((item)=> (item.no===no ? item : alert('조회 정보가 없습니다.')));
+        // for(let i = 0; i < memberList.length; i++){
+        //     if(memberList[i].no === no){
+        //         member = memberList[0];
+        //     }
+        // }
+    // }
     return member;
 }
 
